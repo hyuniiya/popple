@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
-import app from './api/firebase';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import SignUp from './pages/Auth/SignUp';
 
-function App() {
-  useEffect(() => {
-    console.log('app', app);
-  }, []);
-
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>popple</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
