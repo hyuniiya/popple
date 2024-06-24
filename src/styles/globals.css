@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'GodoB';
+  src: url('assets/fonts/GodoB.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'GodoM';
+  src: url('assets/fonts/GodoM.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'godoRounded L';
+  src: url('assets/fonts/godoRoundedL.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'godoRounded R';
+  src: url('assets/fonts/godoRoundedR.ttf') format('truetype');
+}
+
+body {
+  height: 100vh;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 86.67%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 86.67%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 86.67%;
+
+    --primary: 248 53% 58%;
+    --primary-foreground: 248 54% 71%;
+
+    --secondary: 0 53% 58%;
+    --secondary-foreground: 342 66% 62%;
+
+    --border: 0 0% 86.67%;
+    --input: 0 0% 86.67%;
+
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
