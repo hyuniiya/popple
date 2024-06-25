@@ -4,22 +4,22 @@
 
 @font-face {
   font-family: 'GodoB';
-  src: url('assets/fonts/GodoB.ttf') format('truetype');
+  src: url('/src/assets/fonts/GodoB.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'GodoM';
-  src: url('assets/fonts/GodoM.ttf') format('truetype');
+  src: url('/src/assets/fonts/GodoM.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'godoRounded L';
-  src: url('assets/fonts/godoRoundedL.ttf') format('truetype');
+  src: url('/src/assets/fonts/godoRoundedL.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'godoRounded R';
-  src: url('assets/fonts/godoRoundedR.ttf') format('truetype');
+  src: url('/src/assets/fonts/godoRoundedR.ttf') format('truetype');
 }
 
 body {

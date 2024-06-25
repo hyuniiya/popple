@@ -1,10 +1,12 @@
-import SignUpForm from '@/components/SignUpForm';
+import SignUpForm from '@/components/forms/SignUpForm';
+import BottomNavbar from '@/components/common/BottomNavbar';
 
 const SignUp: React.FC = () => {
   return (
-    <div>
-      <h2>회원가입</h2>
+    <div className="flex flex-col justify-center items-center h-full w-[430px] my-6 mx-auto p-3">
+      <h2 className="">header</h2>
       <SignUpForm />
+      <BottomNavbar />
     </div>
   );
 };
