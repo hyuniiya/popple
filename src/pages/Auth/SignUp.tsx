@@ -1,5 +1,5 @@
 import SignUpForm from '@/components/forms/SignUpForm';
-import BottomNavbar from '@/components/common/BottomNavbar';
+import BottomNavbar from '@/components/common/footer/BottomNavbar';
 
 const SignUp: React.FC = () => {
   return (
