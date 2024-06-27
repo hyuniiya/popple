@@ -16,10 +16,15 @@ module.exports = {
       },
     },
     extend: {
+      boxShadow: {
+        inner: 'inset var(--inner-shadow)',
+        drop: 'var(--drop-shadow)',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        navbar: 'hsl(var(--navbar))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
@@ -63,6 +68,7 @@ module.exports = {
         godom: ['GodoM', 'sans-serif'],
         godoroundedl: ['godoRounded L', 'sans-serif'],
         godoroundedr: ['godoRounded R', 'sans-serif'],
+        museo: ['"MuseoModerno"', 'sans-serif'],
       },
     },
   },

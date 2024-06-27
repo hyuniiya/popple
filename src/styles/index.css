@@ -24,6 +24,9 @@
 
 body {
   height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 @layer base {
@@ -45,6 +48,9 @@ body {
 
     --border: 0 0% 86.67%;
     --input: 0 0% 86.67%;
+    --navbar: 178 6% 96%;
+    --inner-shadow: 0 1px 1px 0 hsl(0, 0%, 0%, 0.2);
+    --drop-shadow: 0 1px 1px 0 hsl(0, 0%, 0%, 0.2);
 
     --radius: 0.625rem;
   }

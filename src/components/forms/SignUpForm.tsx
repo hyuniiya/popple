@@ -114,13 +114,13 @@ const SignUpForm: React.FC = () => {
         <div className="w-[250px] h-[50px] bg-primary rounded-[3px]">
           <button
             type="submit"
-            className="w-full h-full font-godob text-white text-lg font-bold rounded-[3px] bg-primary border-none outline-none"
+            className="w-full h-full font-godob text-white text-lg font-bold rounded-[3px] bg-primary border-none outline-none shadow-drop"
           >
             회원가입
           </button>
         </div>
       </form>
-      <div className="flex justify-center space-x-4 text-[14px]">
+      <div className="flex justify-center space-x-4 text-[14px] pb-4">
         <span className="text-[#555555]">이미 계정이 있으신가요?</span>
         <span
           onClick={() => navigate('/signin')}

@@ -12,7 +12,7 @@ const Input: React.ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         id={id}
         type={type}
         className={cn(
-          'w-[250px] border border-popover-foreground text-card-foreground text-sm rounded-md px-6 pt-6 pb-1 my-1 focus:outline-none focus:ring-0 appearance-none block peer',
+          'w-[250px] border border-popover-foreground text-card-foreground text-sm rounded-md px-6 pt-6 pb-1 my-1 focus:outline-none focus:ring-0 appearance-none block peer shadow-inner',
           error && 'border-primary',
         )}
         placeholder={placeholder}
