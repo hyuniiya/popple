@@ -7,15 +7,23 @@ import { SignUpData } from '@/types';
 import { useNavigate } from 'react-router-dom';
 import google from '@/assets/images/google_logo_icon.png';
 import github from '@/assets/images/github_logo_icon.png';
+import { useUserStore } from '@/store/store';
 
 function SignInForm() {
   const navigate = useNavigate();
+  const setUser = useUserStore(state => state.setUser);
 
   useEffect(() => {
-    onAuthStateChanged(auth, user => {
-      console.log('user', user);
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        setUser(user); // 로그인 상태 업데이트
+      } else {
+        setUser(null);
+      }
     });
-  }, []);
+
+    return () => unsubscribe(); // 컴포넌트 언마운트 시 정리
+  }, [setUser]);
 
   const {
     register,
@@ -32,6 +40,9 @@ function SignInForm() {
         password,
       );
       console.log('user with signIn', userCredential.user);
+      alert('로그인 되었습니다!');
+      setUser(userCredential.user);
+      navigate('/');
     } catch (error) {
       const errorCode = (error as any).code;
       const errorMessage = (error as any).message;
@@ -77,10 +88,10 @@ function SignInForm() {
             required: '비밀번호를 입력해주세요.',
           })}
         />
-        <div className="w-[250px] h-[50px] bg-primary rounded-[3px]">
+        <div className="flex w-[250px] h-[50px] bg-primary rounded-[3px]">
           <button
             type="submit"
-            className="w-full h-full font-godob text-white text-lg font-bold rounded-[3px] bg-primary border-none outline-none shadow-drop"
+            className="w-full h-full font-godob text-white text-lg font-bold rounded-[3px] bg-primary border-none outline-none shadow-drop "
           >
             로그인
           </button>
