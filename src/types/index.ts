@@ -1,12 +1,17 @@
 import { UseFormRegister } from 'react-hook-form';
 
-export interface SignUpData {
-  image: string;
-  name: string;
+export interface FollowData {
+  uid: string;
+  profileImage?: string;
   nickname: string;
-  email: string;
-  password: string;
-  bio: string;
+  bio?: string;
+}
+
+export interface UserData {
+  uid: string;
+  profileImg?: string;
+  nickname?: string;
+  bio?: string;
 }
 
 export interface InputProps {
@@ -16,4 +21,13 @@ export interface InputProps {
   error?: string;
   placeholder?: string;
   register: UseFormRegister<SignUpData>;
+}
+
+export interface SignUpData {
+  profileImageUrl: string;
+  name: string;
+  nickname: string;
+  email: string;
+  password: string;
+  bio: string;
 }

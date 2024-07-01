@@ -24,9 +24,6 @@
 
 body {
   height: 100vh;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 @layer base {
@@ -62,5 +59,11 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  #root,
+  #__next {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 }

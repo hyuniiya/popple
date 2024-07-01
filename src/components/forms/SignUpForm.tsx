@@ -1,11 +1,8 @@
-// import { useRef } from 'react';
-import { auth } from '@/api/firebase';
-import { AuthError, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { SignUpData } from '@/types';
-import { FaCircleUser } from 'react-icons/fa6';
 import Input from '../input/Input';
+import { signUp } from '@/api/auth';
 
 const SignUpForm: React.FC = () => {
   const navigate = useNavigate();
@@ -17,20 +14,18 @@ const SignUpForm: React.FC = () => {
   } = useForm<SignUpData>();
 
   const handleSignUp = async (formData: SignUpData) => {
-    const { email, password } = formData;
-
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log('User signed up successfully!');
+      const user = await signUp(formData);
+      console.log('Signed up user:', user);
       alert('회원가입이 완료되었습니다.');
       navigate('/signin');
-    } catch (error: AuthError | any) {
+    } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
-        console.error('Error signing up: 이미 가입된 이메일입니다.');
+        alert('이미 가입된 이메일입니다.');
       } else {
-        console.error('Error signing up:', error.message);
         alert('회원가입에 실패하였습니다');
       }
+      console.error('Error signing up:', error.message);
     }
   };
 
@@ -42,7 +37,11 @@ const SignUpForm: React.FC = () => {
         className="flex flex-col gap-5 h-full my-0 mx-auto p-4"
       >
         <div className="flex items-center justify-center">
-          <FaCircleUser className=" text-primary-foreground text-7xl" />
+          <img
+            src="/src/assets/images/user_img.png"
+            alt="user_img_basic"
+            className="w-[72px] h-[72px]"
+          />
         </div>
         <Input
           id="email"
