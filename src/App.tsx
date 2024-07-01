@@ -5,10 +5,12 @@ import Map from './pages/map/Map';
 import Community from './pages/community/Community';
 import UserExplore from './pages/user/UserExplore';
 import MyPage from './pages/user/MyPage';
+import MyPageEdit from './pages/user/MyPageEdit';
+import MyPostList from './pages/user/MyPostList';
 import SignIn from './pages/auth/SignIn';
 import HomeLayout from './components/common/layout/HomeLayout';
 import Search from './pages/search/Search';
-import Notification from './pages/user/Notification';
+import MyNotiList from './pages/user/MyNotiList';
 import Layout from './components/common/layout/Layout';
 
 const App: React.FC = () => {
@@ -48,6 +50,22 @@ const App: React.FC = () => {
           }
         />
         <Route
+          path="/my/:userId/edit"
+          element={
+            <Layout>
+              <MyPageEdit />
+            </Layout>
+          }
+        />
+        <Route
+          path="/my/:userId/posts"
+          element={
+            <Layout>
+              <MyPostList />
+            </Layout>
+          }
+        />
+        <Route
           path="/signup"
           element={
             <Layout>
@@ -64,10 +82,10 @@ const App: React.FC = () => {
           }
         />
         <Route
-          path="/notification"
+          path="/my/:userId/noti"
           element={
             <Layout>
-              <Notification />
+              <MyNotiList />
             </Layout>
           }
         />

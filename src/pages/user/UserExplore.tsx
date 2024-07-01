@@ -20,10 +20,13 @@ function UserExplore() {
     return <p>Error</p>;
   }
 
+  // 현재 사용자 제외
+  const filteredUsers = data?.filter(user => user.uid !== currentUserId) || [];
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5">
-      {data && data.length > 0 ? (
-        data.map(user => {
+      {filteredUsers.length > 0 ? (
+        filteredUsers.map(user => {
           return (
             <div
               key={user.uid}

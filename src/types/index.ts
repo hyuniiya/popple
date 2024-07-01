@@ -9,6 +9,7 @@ export interface FollowData {
 
 export interface UserData {
   uid: string;
+  email?: string;
   profileImg?: string;
   nickname?: string;
   bio?: string;
@@ -24,7 +25,7 @@ export interface InputProps {
 }
 
 export interface SignUpData {
-  profileImageUrl: string;
+  profileImg: string;
   name: string;
   nickname: string;
   email: string;

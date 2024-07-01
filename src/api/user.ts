@@ -15,6 +15,13 @@ export async function getAllUsers(): Promise<UserData[]> {
   return userSnapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
 }
 
+export async function getCurrentUserInfo(
+  currentUserId: string,
+): Promise<UserData | null> {
+  const allUsers = await getAllUsers();
+  return allUsers.find(user => user.uid === currentUserId) || null;
+}
+
 export const followUser = async (
   from_uid: string,
   to_uid: string,
@@ -58,4 +65,22 @@ export const checkIfFollowing = async (
   );
   const querySnapshot = await getDocs(q);
   return !querySnapshot.empty;
+};
+
+export const getFollowersCount = async (uid: string): Promise<number> => {
+  const followersQuery = query(
+    collection(db, 'follows'),
+    where('to_uid', '==', uid),
+  );
+  const followersSnapshot = await getDocs(followersQuery);
+  return followersSnapshot.size;
+};
+
+export const getFollowingCount = async (uid: string): Promise<number> => {
+  const followingQuery = query(
+    collection(db, 'follows'),
+    where('from_uid', '==', uid),
+  );
+  const followingSnapshot = await getDocs(followingQuery);
+  return followingSnapshot.size;
 };
