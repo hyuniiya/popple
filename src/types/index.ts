@@ -10,7 +10,7 @@ export interface FollowData {
 export interface UserData {
   uid: string;
   email?: string;
-  profileImg?: string;
+  profileImgUrl?: string;
   nickname?: string;
   bio?: string;
 }

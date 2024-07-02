@@ -41,7 +41,7 @@ const MyPage = () => {
       <div className="flex flex-col items-center">
         <div className="relative cursor-pointer" onClick={goToMyPageEdit}>
           <img
-            src="/src/assets/images/user_img.png"
+            src={userInfo?.profileImgUrl || '/src/assets/images/user_img.png'}
             alt="user_img_basic"
             className="w-[68px] h-[68px] rounded-full shadow-drop border border-white"
           />

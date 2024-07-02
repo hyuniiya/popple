@@ -34,7 +34,7 @@ function UserExplore() {
             >
               <div className="flex items-center">
                 <img
-                  src={user.profileImg || '/src/assets/images/user_img.png'}
+                  src={user.profileImgUrl || '/src/assets/images/user_img.png'}
                   alt="Profile_Img"
                   className="w-[58px] h-[58px] rounded-full shadow-md mr-3"
                 />

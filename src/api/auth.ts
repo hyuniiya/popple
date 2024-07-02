@@ -1,8 +1,10 @@
 import { db, auth } from './firebase';
 import {
   AuthError,
+  EmailAuthProvider,
   User,
   createUserWithEmailAndPassword,
+  reauthenticateWithCredential,
   updatePassword,
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -36,10 +38,19 @@ export const signUp = async (formData: SignUpData): Promise<User> => {
   }
 };
 
-export const changePassword = async (newPassword: string): Promise<void> => {
+export const changePassword = async (
+  currentPassword: string,
+  newPassword: string,
+): Promise<void> => {
   const user = auth.currentUser;
-  if (!user) {
+
+  if (!user || !user.email) {
     throw new Error('인증된 사용자를 찾을 수 없습니다.');
   }
-  await updatePassword(user, newPassword);
+  // 현재 비밀번호 재인증
+  const credential = EmailAuthProvider.credential(user.email, currentPassword);
+  await reauthenticateWithCredential(user, credential);
+
+  // 새 비밀번호로 업데이트
+  return updatePassword(user, newPassword);
 };

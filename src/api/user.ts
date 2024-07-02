@@ -6,9 +6,12 @@ import {
   getDocs,
   deleteDoc,
   Timestamp,
+  updateDoc,
+  doc,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { UserData } from '@/types';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 export async function getAllUsers(): Promise<UserData[]> {
   const userSnapshot = await getDocs(collection(db, 'users'));
@@ -83,4 +86,26 @@ export const getFollowingCount = async (uid: string): Promise<number> => {
   );
   const followingSnapshot = await getDocs(followingQuery);
   return followingSnapshot.size;
+};
+
+export const updateUserProfile = async (uid: string, updateData: any) => {
+  const userRef = doc(db, 'users', uid);
+  const storage = getStorage();
+
+  if (updateData.profileImg) {
+    const file = updateData.profileImg as File;
+    const storageRef = ref(storage, `profileImages/${uid}`);
+
+    await uploadBytes(storageRef, file);
+
+    const downloadURL = await getDownloadURL(storageRef);
+
+    updateData.profileImgUrl = downloadURL;
+
+    delete updateData.profileImg;
+  }
+
+  await updateDoc(userRef, updateData);
+
+  return updateData;
 };
