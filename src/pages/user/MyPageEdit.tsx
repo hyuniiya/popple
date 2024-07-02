@@ -1,13 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { getCurrentUser } from '@/hooks/getCurrentUser';
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm';
 import { IoCameraReverse } from 'react-icons/io5';
 import { TextInput } from '@/components/common/text/TextInput';
 import { updateUserProfile } from '@/api/user';
+import { User, signOut } from 'firebase/auth';
+import { auth } from '@/api/firebase';
+import { useUserStore } from '@/store/store';
+import { useNavigate } from 'react-router-dom';
+import { deleteAccount } from '@/api/auth';
 
 const MyPageEdit = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { data: fetchedUserInfo, isLoading, error, refetch } = getCurrentUser();
   const [userInfo, setUserInfo] = useState(fetchedUserInfo);
   const [nickname, setNickname] = useState('');
@@ -45,6 +51,18 @@ const MyPageEdit = () => {
     fileInputRef.current?.click();
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      useUserStore.getState().setUser(null);
+      alert('로그아웃되었습니다.');
+      navigate('/signin');
+    } catch (error) {
+      console.error('로그아웃 중 오류 발생:', error);
+      alert('로그아웃 중 문제가 발생했습니다.');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -67,6 +85,25 @@ const MyPageEdit = () => {
     } catch (error) {
       console.error('프로필 업데이트 중 오류 발생:', error);
       alert('프로필 업데이트에 실패했습니다.');
+    }
+  };
+
+  const handleDeleteAccountClick = async () => {
+    if (!user) return;
+
+    const confirmDelete = window.confirm(
+      '정말로 회원탈퇴 하시겠습니까? 탈퇴 후 되돌릴 수 없습니다.',
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await deleteAccount(user as User);
+      useUserStore.getState().setUser(null);
+      alert('회원탈퇴가 완료되었습니다.');
+      navigate('/');
+    } catch (error) {
+      console.error('회원탈퇴 중 오류 발생:', error);
+      alert('회원탈퇴 중 문제가 발생했습니다.');
     }
   };
 
@@ -121,6 +158,7 @@ const MyPageEdit = () => {
           </TextInput>
 
           <ChangePasswordForm />
+
           <button
             type="submit"
             className="w-[70px] h-[30px] bg-primary text-white font-godob text-[14px] rounded-sm"
@@ -130,11 +168,17 @@ const MyPageEdit = () => {
         </form>
       )}
       <div className="flex justify-center itmes-center gap-4 text-[12px] pt-6">
-        <span className="text-card-foreground cursor-pointer underline">
+        <span
+          className="text-card-foreground cursor-pointer underline"
+          onClick={handleLogout}
+        >
           로그아웃
         </span>
         <div className="w-[0.5px] h-5 bg-card-foreground"></div>
-        <span className="text-card-foreground cursor-pointer underline">
+        <span
+          className="text-card-foreground cursor-pointer underline"
+          onClick={handleDeleteAccountClick}
+        >
           회원탈퇴
         </span>
       </div>

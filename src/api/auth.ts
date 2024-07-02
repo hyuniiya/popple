@@ -6,9 +6,11 @@ import {
   createUserWithEmailAndPassword,
   reauthenticateWithCredential,
   updatePassword,
+  deleteUser,
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { SignUpData } from '@/types';
+
 const Basic_Profile_img = '/src/assets/images/user_img.png';
 
 export const signUp = async (formData: SignUpData): Promise<User> => {
@@ -53,4 +55,15 @@ export const changePassword = async (
 
   // 새 비밀번호로 업데이트
   return updatePassword(user, newPassword);
+};
+
+export const deleteAccount = async (user: User) => {
+  if (!user) return;
+  try {
+    await deleteUser(user);
+    await deleteDoc(doc(db, 'users', user.uid));
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error;
+  }
 };

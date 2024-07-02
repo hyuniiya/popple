@@ -21,14 +21,14 @@ const BottomNavbar = () => {
     <div className="w-[450px] bg-navbar flex justify-around p-4 rounded-t-lg">
       <div
         className="flex flex-col items-center text-card-foreground hover:text-primary cursor-pointer"
-        onClick={() => handleNavigation('/map')}
+        onClick={() => navigate('/map')}
       >
         <FaRegMap className="text-2xl mb-1" />
         <span className="text-sm">지도</span>
       </div>
       <div
         className="flex flex-col items-center text-card-foreground hover:text-primary cursor-pointer"
-        onClick={() => handleNavigation('/community')}
+        onClick={() => navigate('/community')}
       >
         <FiUsers className="text-2xl mb-1" />
         <span className="text-sm">커뮤니티</span>
