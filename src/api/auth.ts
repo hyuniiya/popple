@@ -1,5 +1,10 @@
 import { db, auth } from './firebase';
-import { AuthError, User, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  AuthError,
+  User,
+  createUserWithEmailAndPassword,
+  updatePassword,
+} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { SignUpData } from '@/types';
 const Basic_Profile_img = '/src/assets/images/user_img.png';
@@ -29,4 +34,12 @@ export const signUp = async (formData: SignUpData): Promise<User> => {
   } catch (error: AuthError | any) {
     throw error;
   }
+};
+
+export const changePassword = async (newPassword: string): Promise<void> => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error('인증된 사용자를 찾을 수 없습니다.');
+  }
+  await updatePassword(user, newPassword);
 };
