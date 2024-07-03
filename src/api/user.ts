@@ -8,6 +8,7 @@ import {
   Timestamp,
   updateDoc,
   doc,
+  getDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { UserData } from '@/types';
@@ -77,13 +78,57 @@ export const getFollowersCount = async (uid: string): Promise<number> => {
   return followersSnapshot.size;
 };
 
-export const getFollowingCount = async (uid: string): Promise<number> => {
+export const getFollowingCount = async (uid: string) => {
   const followingQuery = query(
     collection(db, 'follows'),
     where('from_uid', '==', uid),
   );
   const followingSnapshot = await getDocs(followingQuery);
   return followingSnapshot.size;
+};
+
+export const getUserFollowers = async (uid: string): Promise<UserData[]> => {
+  const followersQuery = query(
+    collection(db, 'follows'),
+    where('to_uid', '==', uid),
+  );
+
+  const snapshot = await getDocs(followersQuery);
+  const followerData = snapshot.docs.map(doc => doc.data());
+
+  const userPromises = followerData.map(async data => {
+    const userDoc = await getDoc(doc(db, 'users', data.to_uid));
+    const userData = userDoc.data();
+    return {
+      uid: data.to_uid,
+      nickname: userData?.nickname,
+      profileImgUrl: userData?.profileImgUrl,
+    };
+  });
+
+  return Promise.all(userPromises);
+};
+
+export const getUserFollowing = async (uid: string): Promise<UserData[]> => {
+  const followingQuery = query(
+    collection(db, 'follows'),
+    where('from_uid', '==', uid),
+  );
+
+  const snapshot = await getDocs(followingQuery);
+  const followingData = snapshot.docs.map(doc => doc.data());
+
+  const userPromises = followingData.map(async data => {
+    const userDoc = await getDoc(doc(db, 'users', data.to_uid));
+    const userData = userDoc.data();
+    return {
+      uid: data.to_uid,
+      nickname: userData?.nickname,
+      profileImgUrl: userData?.profileImgUrl,
+    };
+  });
+
+  return Promise.all(userPromises);
 };
 
 export const updateUserProfile = async (uid: string, updateData: any) => {

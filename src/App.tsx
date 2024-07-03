@@ -12,6 +12,7 @@ import HomeLayout from './components/common/layout/HomeLayout';
 import Search from './pages/search/Search';
 import MyNotiList from './pages/user/MyNotiList';
 import UserProfile from './pages/user/UserProfile';
+import MyFollowList from './pages/user/MyFollowList';
 import Layout from './components/common/layout/Layout';
 
 const App: React.FC = () => {
@@ -63,6 +64,14 @@ const App: React.FC = () => {
           element={
             <Layout>
               <UserProfile />
+            </Layout>
+          }
+        />
+        <Route
+          path="/my/:userId/follows"
+          element={
+            <Layout>
+              <MyFollowList />
             </Layout>
           }
         />

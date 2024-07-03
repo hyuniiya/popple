@@ -39,6 +39,12 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
     }
   };
 
+  const goToMyFollowList = () => {
+    if (isCurrentUser) {
+      navigate(`/my/${userId}/follows`);
+    }
+  };
+
   return (
     <div className="flex">
       <div className="flex flex-col items-center">
@@ -65,12 +71,18 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
       </div>
       <div className="flex flex-col items-center mx-10 my-2">
         <div className="flex flex-row items-center">
-          <div className="flex flex-col items-center">
+          <div
+            className="flex flex-col items-center cursor-pointer"
+            onClick={goToMyFollowList}
+          >
             <span className="text-[14px] font-godob">팔로워</span>
             <span className="text-[16px] font-semibold">{followersCount}</span>
           </div>
           <div className="w-[0.4px] h-12 bg-border mx-8" />
-          <div className="flex flex-col items-center">
+          <div
+            className="flex flex-col items-center cursor-pointer"
+            onClick={goToMyFollowList}
+          >
             <span className="text-[14px] font-godob">팔로잉</span>
             <span className="text-[16px] font-semibold">{followingCount}</span>
           </div>
