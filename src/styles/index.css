@@ -4,22 +4,22 @@
 
 @font-face {
   font-family: 'GodoB';
-  src: url('assets/fonts/GodoB.ttf') format('truetype');
+  src: url('/src/assets/fonts/GodoB.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'GodoM';
-  src: url('assets/fonts/GodoM.ttf') format('truetype');
+  src: url('/src/assets/fonts/GodoM.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'godoRounded L';
-  src: url('assets/fonts/godoRoundedL.ttf') format('truetype');
+  src: url('/src/assets/fonts/godoRoundedL.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'godoRounded R';
-  src: url('assets/fonts/godoRoundedR.ttf') format('truetype');
+  src: url('/src/assets/fonts/godoRoundedR.ttf') format('truetype');
 }
 
 body {
@@ -29,10 +29,10 @@ body {
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 86.67%;
+    --foreground: 0 0% 16%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 86.67%;
+    --card-foreground: 0 0% 59%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 86.67%;
@@ -45,6 +45,9 @@ body {
 
     --border: 0 0% 86.67%;
     --input: 0 0% 86.67%;
+    --navbar: 178 6% 96%;
+    --inner-shadow: 0 1px 1px 0 hsl(0, 0%, 0%, 0.2);
+    --drop-shadow: 0 1px 1px 0 hsl(0, 0%, 0%, 0.2);
 
     --radius: 0.625rem;
   }
@@ -56,5 +59,11 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  #root,
+  #__next {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 }

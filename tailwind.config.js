@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './pages/**/*.{js,jsx,s,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
+    './app/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
   prefix: '',
   theme: {
@@ -16,16 +16,15 @@ module.exports = {
       },
     },
     extend: {
-      height: {
-        'real-screen': 'calc(var(--vh) * 100)',
-      },
-      minHeight: {
-        'real-screen': 'calc(var(--vh) * 100)',
+      boxShadow: {
+        inner: 'inset var(--inner-shadow)',
+        drop: 'var(--drop-shadow)',
       },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        navbar: 'hsl(var(--navbar))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
@@ -69,6 +68,7 @@ module.exports = {
         godom: ['GodoM', 'sans-serif'],
         godoroundedl: ['godoRounded L', 'sans-serif'],
         godoroundedr: ['godoRounded R', 'sans-serif'],
+        museo: ['"MuseoModerno"', 'sans-serif'],
       },
     },
   },
