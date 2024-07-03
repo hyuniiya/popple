@@ -18,11 +18,9 @@ export async function getAllUsers(): Promise<UserData[]> {
   return userSnapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
 }
 
-export async function getCurrentUserInfo(
-  currentUserId: string,
-): Promise<UserData | null> {
+export async function getUserInfo(userId: string): Promise<UserData | null> {
   const allUsers = await getAllUsers();
-  return allUsers.find(user => user.uid === currentUserId) || null;
+  return allUsers.find(user => user.uid === userId) || null;
 }
 
 export const followUser = async (

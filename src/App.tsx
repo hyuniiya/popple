@@ -11,6 +11,7 @@ import SignIn from './pages/auth/SignIn';
 import HomeLayout from './components/common/layout/HomeLayout';
 import Search from './pages/search/Search';
 import MyNotiList from './pages/user/MyNotiList';
+import UserProfile from './pages/user/UserProfile';
 import Layout from './components/common/layout/Layout';
 
 const App: React.FC = () => {
@@ -54,6 +55,14 @@ const App: React.FC = () => {
           element={
             <Layout>
               <MyPageEdit />
+            </Layout>
+          }
+        />
+        <Route
+          path="/my/:userId"
+          element={
+            <Layout>
+              <UserProfile />
             </Layout>
           }
         />

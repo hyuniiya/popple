@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { getCurrentUser } from '@/hooks/getCurrentUser';
+import { useUserInfo } from '@/hooks/useUserInfo';
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm';
 import { IoCameraReverse } from 'react-icons/io5';
 import { TextInput } from '@/components/common/text/TextInput';
@@ -14,7 +14,12 @@ import { deleteAccount } from '@/api/auth';
 const MyPageEdit = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { data: fetchedUserInfo, isLoading, error, refetch } = getCurrentUser();
+  const {
+    data: fetchedUserInfo,
+    isLoading,
+    error,
+    refetch,
+  } = useUserInfo(user?.uid || '');
   const [userInfo, setUserInfo] = useState(fetchedUserInfo);
   const [nickname, setNickname] = useState('');
   const [bio, setBio] = useState('');
@@ -157,8 +162,10 @@ const MyPageEdit = () => {
             <label className="mr-2 text-[12px]">소개글</label>
           </TextInput>
 
-          <ChangePasswordForm />
-
+          <ChangePasswordForm
+            currentUser={fetchedUserInfo}
+            isLoading={isLoading}
+          />
           <button
             type="submit"
             className="w-[70px] h-[30px] bg-primary text-white font-godob text-[14px] rounded-sm"

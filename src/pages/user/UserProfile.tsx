@@ -1,22 +1,28 @@
+import ProfileInfo from '@/components/profile/ProfileInfo';
 import { useAuth } from '@/context/AuthContext';
 import { useFollowCounts } from '@/hooks/useFollowCounts';
-import ProfileInfo from '@/components/profile/ProfileInfo';
 import { useUserInfo } from '@/hooks/useUserInfo';
+import { useParams } from 'react-router-dom';
 
-const MyPage = () => {
+const UserProfile = () => {
+  const { userId } = useParams<{ userId: string }>();
   const { user } = useAuth();
+
+  if (!userId) {
+    return <div>사용자 ID가 없습니다.</div>;
+  }
 
   const {
     data: userInfo,
     isLoading: userLoading,
     error: userError,
-  } = useUserInfo(user?.uid || '');
+  } = useUserInfo(userId);
 
   const {
     data: followCounts,
     isLoading: countsLoading,
     error: countsError,
-  } = useFollowCounts(user?.uid ?? null);
+  } = useFollowCounts(userId);
 
   if (userLoading || countsLoading) return <div>Loading...</div>;
   if (userError || countsError) return <div>나중에 다시 시도 해주세요.</div>;
@@ -25,7 +31,7 @@ const MyPage = () => {
   return (
     <div>
       <ProfileInfo
-        userId={user.uid}
+        userId={userId}
         profileImgUrl={userInfo?.profileImgUrl || ''}
         nickname={userInfo?.nickname || ''}
         bio={userInfo?.bio || ''}
@@ -38,4 +44,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default UserProfile;

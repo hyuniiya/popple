@@ -2,10 +2,12 @@ import { useQuery } from 'react-query';
 import { getAllUsers } from '@/api/user';
 import FollowBtn from '@/components/button/FollowBtn';
 import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function UserExplore() {
   const { user } = useAuth();
   const currentUserId: string = user?.uid || '';
+  const navigate = useNavigate();
 
   const { data, isLoading, isError } = useQuery('users', getAllUsers);
 
@@ -23,6 +25,10 @@ function UserExplore() {
   // 현재 사용자 제외
   const filteredUsers = data?.filter(user => user.uid !== currentUserId) || [];
 
+  const handleUserClick = (uid: string) => {
+    navigate(`/my/${uid}`);
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5">
       {filteredUsers.length > 0 ? (
@@ -32,7 +38,10 @@ function UserExplore() {
               key={user.uid}
               className="flex flex-col justify-center items-center w-[180px] h-[150px] border border-border rounded-[12px]"
             >
-              <div className="flex items-center">
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => handleUserClick(user.uid)}
+              >
                 <img
                   src={user.profileImgUrl || '/src/assets/images/user_img.png'}
                   alt="Profile_Img"

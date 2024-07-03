@@ -1,7 +1,7 @@
 import { useForm, Controller } from 'react-hook-form';
 import { useChangePassword } from '@/hooks/useChangePassword';
-import { getCurrentUser } from '@/hooks/getCurrentUser';
 import { TextInput } from '../common/text/TextInput';
+import { UserData } from '@/types';
 
 interface ChangePasswordFormData {
   email: string;
@@ -10,8 +10,15 @@ interface ChangePasswordFormData {
   confirmPassword: string;
 }
 
-const ChangePasswordForm: React.FC = () => {
-  const { data: currentUser, isLoading: isUserLoading } = getCurrentUser();
+interface ChangePasswordFormProps {
+  currentUser: UserData | null | undefined;
+  isLoading: boolean;
+}
+
+const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({
+  currentUser,
+  isLoading,
+}) => {
   const changePasswordMutation = useChangePassword();
   const {
     control,
@@ -47,7 +54,7 @@ const ChangePasswordForm: React.FC = () => {
     );
   };
 
-  if (isUserLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
   if (!currentUser) return <div>사용자 정보를 불러올 수 없습니다.</div>;
 
   return (
