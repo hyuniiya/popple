@@ -13,6 +13,7 @@ import Search from './pages/search/Search';
 import MyNotiList from './pages/user/MyNotiList';
 import UserProfile from './pages/user/UserProfile';
 import MyFollowList from './pages/user/MyFollowList';
+import WritePost from './pages/community/WritePost';
 import Layout from './components/common/layout/Layout';
 
 const App: React.FC = () => {
@@ -32,6 +33,14 @@ const App: React.FC = () => {
           element={
             <Layout>
               <Community />
+            </Layout>
+          }
+        />
+        <Route
+          path="/write/:userId"
+          element={
+            <Layout>
+              <WritePost />
             </Layout>
           }
         />

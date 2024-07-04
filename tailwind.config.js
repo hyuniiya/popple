@@ -27,6 +27,7 @@ module.exports = {
         navbar: 'hsl(var(--navbar))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        proceeding: 'hsl(var(--proceeding))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

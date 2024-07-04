@@ -1,5 +1,15 @@
 import { UseFormRegister } from 'react-hook-form';
 
+export interface Posts {
+  id: string;
+  title: string;
+  content: string;
+  tags?: string[];
+  userId: string;
+  imageUrl?: string;
+  createdAt: Date;
+}
+
 export interface FollowData {
   uid: string;
   profileImage?: string;

@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useUserInfo } from '@/hooks/useUserInfo';
 import ChangePasswordForm from '@/components/forms/ChangePasswordForm';
 import { IoCameraReverse } from 'react-icons/io5';
-import { TextInput } from '@/components/common/text/TextInput';
+import { TextInput } from '@/components/input/TextInput';
 import { updateUserProfile } from '@/api/user';
 import { User, signOut } from 'firebase/auth';
 import { auth } from '@/api/firebase';

@@ -34,7 +34,7 @@ body {
     --card: 0 0% 100%;
     --card-foreground: 0 0% 59%;
 
-    --popover: 0 0% 100%;
+    --popover: 0 0% 65%;
     --popover-foreground: 0 0% 86.67%;
 
     --primary: 248 53% 58%;
@@ -42,6 +42,8 @@ body {
 
     --secondary: 0 53% 58%;
     --secondary-foreground: 342 66% 62%;
+
+    --proceeding: 173 53% 58%;
 
     --border: 0 0% 86.67%;
     --input: 0 0% 86.67%;

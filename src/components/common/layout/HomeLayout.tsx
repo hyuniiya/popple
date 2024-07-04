@@ -1,5 +1,5 @@
 import BottomNavbar from '../footer/BottomNavbar';
-import HomeHeader from '../header/HomeHeader';
+import HomeHeader from '../Header/HomeHeader';
 
 const HomeLayout = ({ children }: { children?: React.ReactNode }) => {
   return (
