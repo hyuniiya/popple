@@ -23,7 +23,7 @@ const Community = () => {
           <h1 className="text-primary text-[22px] font-godob">게시판</h1>
           <button
             onClick={handleWriteClick}
-            className="flex items-center bg-primary-foreground hover:bg-primary text-white text-[13px] py-2 px-5 rounded gap-1 font-godob"
+            className="flex items-center bg-primary hover:bg-primary-foreground text-white text-[13px] py-2 px-5 rounded gap-1 font-godob"
           >
             <FaEdit className="text-lg" />
             글쓰기

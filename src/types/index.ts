@@ -7,6 +7,7 @@ export interface Posts {
   tags?: string[];
   userId: string;
   imageUrl?: string;
+  imageUrls?: string[];
   createdAt: Date;
 }
 

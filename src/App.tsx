@@ -14,6 +14,8 @@ import MyNotiList from './pages/user/MyNotiList';
 import UserProfile from './pages/user/UserProfile';
 import MyFollowList from './pages/user/MyFollowList';
 import WritePost from './pages/community/WritePost';
+import PostDetail from './pages/community/PostDetail';
+import EditPost from './pages/community/EditPost';
 import Layout from './components/common/layout/Layout';
 
 const App: React.FC = () => {
@@ -41,6 +43,22 @@ const App: React.FC = () => {
           element={
             <Layout>
               <WritePost />
+            </Layout>
+          }
+        />
+        <Route
+          path="/posts/:id"
+          element={
+            <Layout>
+              <PostDetail />
+            </Layout>
+          }
+        />
+        <Route
+          path="/edit/:id"
+          element={
+            <Layout>
+              <EditPost />
             </Layout>
           }
         />
