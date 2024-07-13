@@ -30,11 +30,11 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-[22px] text-primary font-godob">회원가입</h1>
+    <div className="w-full max-w-[250px] mx-auto">
+      <h1 className="text-[22px] text-primary font-godob ">회원가입</h1>
       <form
         onSubmit={handleSubmit(handleSignUp)}
-        className="flex flex-col gap-5 h-full my-0 mx-auto p-4"
+        className="flex flex-col items-center justify-center gap-5 h-full my-0 mx-auto p-4"
       >
         <div className="flex items-center justify-center">
           <img

@@ -3,9 +3,11 @@ import HomeHeader from '../Header/HomeHeader';
 
 const HomeLayout = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <div className="flex flex-col justify-center items-center h-full w-[430px] my-6 mx-auto p-3">
+    <div className="flex flex-col h-screen w-full max-w-[430px] mx-auto overflow-hidden">
       <HomeHeader />
-      {children}
+      <main className="flex-1 overflow-y-auto scrollbar-hide pt-[102px] pb-[80px]">
+        {children}
+      </main>
       <BottomNavbar />
     </div>
   );

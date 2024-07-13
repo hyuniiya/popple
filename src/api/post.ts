@@ -102,7 +102,11 @@ export const deletePost = async (id: string) => {
     if (postData.imageUrls && postData.imageUrls.length > 0) {
       const deletePromises = postData.imageUrls.map(async (url: string) => {
         const imageRef = ref(storage, url);
-        return deleteObject(imageRef);
+        try {
+          await deleteObject(imageRef);
+        } catch (error) {
+          console.warn(`Failed to delete image: ${url}`, error);
+        }
       });
 
       await Promise.all(deletePromises);

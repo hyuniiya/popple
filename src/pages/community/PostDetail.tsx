@@ -1,14 +1,18 @@
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { fetchPostById } from '@/api/post';
 import { getAllUsers } from '@/api/user';
 import { Posts, UserData } from '@/types';
-import { FaHeart, FaRegComment, FaRegHeart } from 'react-icons/fa6';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { useAuth } from '@/context/AuthContext';
 import { useDeletePost } from '@/hooks/useDeletePost';
-import { Link } from 'react-router-dom';
 import { useLikePost } from '@/hooks/useLikePost';
 import { getLikesCount, isLikedByUser } from '@/api/post';
+import { useComments } from '@/hooks/useComments';
+import PostContent from '@/components/post/PostContent';
+import Comment from '@/components/post/comment/Comment';
+import CommentForm from '@/components/forms/CommentForm';
 
 const PostDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,6 +43,20 @@ const PostDetail: React.FC = () => {
       id && user?.uid ? isLikedByUser(id, user.uid) : Promise.resolve(false),
     { enabled: !!id && !!user },
   );
+
+  const {
+    showComments,
+    setShowComments,
+    commentText,
+    setCommentText,
+    commentsData,
+    handleCommentSubmit,
+    ref,
+    hasNextPage,
+    commentsCount,
+    handleCommentUpdate,
+    handleCommentDelete,
+  } = useComments(id as string);
 
   if (postLoading || usersLoading) return <div>Loading...</div>;
   if (!post || !users) return <div>Post or Users not found</div>;
@@ -78,66 +96,71 @@ const PostDetail: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-xl font-semibold mb-4">{post.title}</h1>
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center">
-          <img
-            src={author.profileImgUrl}
-            alt={`${author.nickname}'s profile`}
-            className="w-10 h-10 rounded-full mr-3 shadow-drop"
+    <div className="container mx-auto px-4 pt-8">
+      <PostContent
+        post={post}
+        author={author}
+        isAuthor={isAuthor ?? false}
+        isLiked={isLiked}
+        likesCount={likesCount}
+        commentsCount={commentsCount}
+        formatDate={formatDate}
+        handleLike={handleLike}
+        handleDelete={handleDelete}
+      />
+      <button
+        onClick={() => setShowComments(!showComments)}
+        className="flex items-center text-popover hover:text-primary transition-colors duration-200 pb-4"
+      >
+        {showComments ? (
+          <>
+            댓글창 접기
+            <FaChevronUp className="ml-1" />
+          </>
+        ) : (
+          <>
+            댓글 쓰기
+            <FaChevronDown className="ml-1 " />
+          </>
+        )}
+      </button>
+      {showComments && (
+        <div>
+          <CommentForm
+            user={user}
+            commentText={commentText}
+            setCommentText={setCommentText}
+            handleCommentSubmit={handleCommentSubmit}
           />
-          <div className="flex flex-col">
-            <span className="text-xs mr-3">{author.nickname}</span>
-            <span className="text-[10px] text-popover">
-              {formatDate(post.createdAt)}
-            </span>
-          </div>
-        </div>
-        <div className="flex flex-col items-end">
-          <div className="flex items-center gap-1 text-popover text-xs mb-2">
-            <FaRegComment />
-            <span>comments.count</span>
-          </div>
-          {isAuthor && (
-            <div className="flex gap-2">
-              <Link
-                to={`/edit/${post.id}`}
-                className="text-popover px-2 py-1 rounded text-xs"
-              >
-                수정
-              </Link>
-              <div className="mt-0.5 h-5 w-[0.5px] bg-popover"></div>
-              <button
-                className="text-popover px-2 py-1 rounded text-xs"
-                onClick={handleDelete}
-              >
-                삭제
-              </button>
+
+          {commentsData?.pages.map((page, pageIndex) => (
+            <React.Fragment key={pageIndex}>
+              {page.comments.map(comment => {
+                const commentAuthor = users.find(
+                  user => user.uid === comment.userId,
+                );
+                return (
+                  <Comment
+                    key={comment.id}
+                    comment={comment}
+                    user={user}
+                    commentAuthor={commentAuthor}
+                    formatDate={formatDate}
+                    handleCommentUpdate={handleCommentUpdate}
+                    handleCommentDelete={handleCommentDelete}
+                    isPostAuthor={user?.uid === post.userId}
+                  />
+                );
+              })}
+            </React.Fragment>
+          ))}
+          {hasNextPage && (
+            <div ref={ref} className="mt-4 text-center">
+              ''
             </div>
           )}
         </div>
-      </div>
-      {Array.isArray(post.imageUrls) ? (
-        post.imageUrls.map((url, index) => (
-          <img
-            key={index}
-            src={url}
-            alt={`Post image ${index + 1}`}
-            className="mb-4"
-          />
-        ))
-      ) : post.imageUrl ? (
-        <img src={post.imageUrl} alt="Post image" className="mb-4" />
-      ) : null}
-      <p className="mb-4">{post.content}</p>
-      <button
-        onClick={handleLike}
-        className="flex items-center mr-2 text-secondary-foreground"
-      >
-        {isLiked ? <FaHeart /> : <FaRegHeart />}
-        <span className="ml-1">{likesCount}</span>
-      </button>
+      )}
     </div>
   );
 };

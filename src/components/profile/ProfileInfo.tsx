@@ -46,7 +46,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
   };
 
   return (
-    <div className="flex">
+    <div className="flex items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="relative cursor-pointer" onClick={goToUserPageEdit}>
           <img

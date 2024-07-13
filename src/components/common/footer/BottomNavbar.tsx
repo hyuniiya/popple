@@ -33,26 +33,28 @@ const BottomNavbar = () => {
   ];
 
   return (
-    <div className="w-[450px] bg-navbar flex justify-around p-4 rounded-t-lg">
-      {menuItems.map(item => (
-        <div
-          key={item.path}
-          className={`flex flex-col items-center cursor-pointer ${
-            activeMenu === item.path
-              ? 'text-primary'
-              : 'text-card-foreground hover:text-primary'
-          }`}
-          onClick={() =>
-            item.path === '/user_explore' || item.path === '/mypage'
-              ? handleNavigation(item.path)
-              : navigate(item.path)
-          }
-        >
-          <item.icon className="text-2xl mb-1" />
-          <span className="text-sm">{item.text}</span>
-        </div>
-      ))}
-    </div>
+    <footer className="fixed bottom-0 left-0 right-0 z-10">
+      <div className="w-full max-w-[450px] mx-auto bg-navbar flex justify-around p-4 rounded-t-lg">
+        {menuItems.map(item => (
+          <div
+            key={item.path}
+            className={`flex flex-col items-center cursor-pointer ${
+              activeMenu === item.path
+                ? 'text-primary'
+                : 'text-card-foreground hover:text-primary'
+            }`}
+            onClick={() =>
+              item.path === '/user_explore' || item.path === '/mypage'
+                ? handleNavigation(item.path)
+                : navigate(item.path)
+            }
+          >
+            <item.icon className="text-2xl mb-1" />
+            <span className="text-sm">{item.text}</span>
+          </div>
+        ))}
+      </div>
+    </footer>
   );
 };
 
