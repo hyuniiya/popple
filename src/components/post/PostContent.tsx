@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaRegComment } from 'react-icons/fa6';
 import { Posts, UserData } from '@/types';
@@ -24,6 +24,24 @@ const PostContent: React.FC<{
   handleLike,
   handleDelete,
 }) => {
+  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    if (Array.isArray(post.imageUrls)) {
+      setImagesLoaded(new Array(post.imageUrls.length).fill(false));
+    } else if (post.imageUrl) {
+      setImagesLoaded([false]);
+    }
+  }, [post.imageUrls, post.imageUrl]);
+
+  const handleImageLoad = (index: number) => {
+    setImagesLoaded(prev => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
+  };
+
   return (
     <>
       <h1 className="text-xl font-semibold mb-4">{post.title}</h1>
@@ -66,18 +84,42 @@ const PostContent: React.FC<{
         </div>
       </div>
       <div className="w-full h-[0.5px] bg-border my-4"></div>
-      {Array.isArray(post.imageUrls) ? (
-        post.imageUrls.map((url, index) => (
-          <img
-            key={index}
-            src={url}
-            alt={`Post image ${index + 1}`}
-            className="mb-4"
-          />
-        ))
-      ) : post.imageUrl ? (
-        <img src={post.imageUrl} alt="Post image" className="mb-4" />
-      ) : null}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mb-4">
+        {Array.isArray(post.imageUrls) ? (
+          post.imageUrls.map((url, index) => (
+            <div
+              key={index}
+              className="aspect-square bg-gray-200 rounded-lg overflow-hidden relative"
+            >
+              {!imagesLoaded[index] && (
+                <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-200 to-gray-300" />
+              )}
+              <img
+                src={url}
+                alt={`Post image ${index + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                  imagesLoaded[index] ? 'opacity-100' : 'opacity-0'
+                }`}
+                onLoad={() => handleImageLoad(index)}
+              />
+            </div>
+          ))
+        ) : post.imageUrl ? (
+          <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden relative">
+            {!imagesLoaded[0] && (
+              <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-200 to-gray-300" />
+            )}
+            <img
+              src={post.imageUrl}
+              alt="Post image"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                imagesLoaded[0] ? 'opacity-100' : 'opacity-0'
+              }`}
+              onLoad={() => handleImageLoad(0)}
+            />
+          </div>
+        ) : null}
+      </div>
       <p className="mb-4">{post.content}</p>
       <button
         onClick={handleLike}

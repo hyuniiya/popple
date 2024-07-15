@@ -58,7 +58,34 @@ const PostDetail: React.FC = () => {
     handleCommentDelete,
   } = useComments(id as string);
 
-  if (postLoading || usersLoading) return <div>Loading...</div>;
+  if (postLoading || usersLoading)
+    return (
+      <div className="animate-pulse space-y-4">
+        <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-3">
+            <div className="rounded-full bg-gray-200 h-10 w-10"></div>
+            <div className="space-y-2">
+              <div className="h-4 bg-gray-200 rounded w-20"></div>
+              <div className="h-3 bg-gray-200 rounded w-16"></div>
+            </div>
+          </div>
+          <div className="h-4 bg-gray-200 rounded w-16"></div>
+        </div>
+        <div className="h-[0.5px] bg-gray-200"></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+          {[...Array(1)].map((_, index) => (
+            <div
+              key={index}
+              className="aspect-square bg-gray-200 rounded-lg"
+            ></div>
+          ))}
+        </div>
+        <div className="h-4 bg-gray-200 rounded w-full"></div>
+        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+      </div>
+    );
   if (!post || !users) return <div>Post or Users not found</div>;
 
   const author = users.find(user => user.uid === post.userId);
