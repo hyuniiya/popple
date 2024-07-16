@@ -16,124 +16,37 @@ import MyFollowList from './pages/user/MyFollowList';
 import WritePost from './pages/community/WritePost';
 import PostDetail from './pages/community/PostDetail';
 import EditPost from './pages/community/EditPost';
+import AddPopUp from './pages/admin/AddPopUp';
 import Layout from './components/common/layout/Layout';
+import { Outlet } from 'react-router-dom';
+
+const LayoutWithOutlet = () => (
+  <Layout>
+    <Outlet />
+  </Layout>
+);
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/map"
-          element={
-            <Layout>
-              <Map />
-            </Layout>
-          }
-        />
-        <Route
-          path="/community"
-          element={
-            <Layout>
-              <Community />
-            </Layout>
-          }
-        />
-        <Route
-          path="/write/:userId"
-          element={
-            <Layout>
-              <WritePost />
-            </Layout>
-          }
-        />
-        <Route
-          path="/posts/:id"
-          element={
-            <Layout>
-              <PostDetail />
-            </Layout>
-          }
-        />
-        <Route
-          path="/edit/:id"
-          element={
-            <Layout>
-              <EditPost />
-            </Layout>
-          }
-        />
-        <Route
-          path="/user_explore"
-          element={
-            <Layout>
-              <UserExplore />
-            </Layout>
-          }
-        />
-        <Route
-          path="/mypage"
-          element={
-            <Layout>
-              <MyPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/my/:userId/edit"
-          element={
-            <Layout>
-              <MyPageEdit />
-            </Layout>
-          }
-        />
-        <Route
-          path="/my/:userId"
-          element={
-            <Layout>
-              <UserProfile />
-            </Layout>
-          }
-        />
-        <Route
-          path="/my/:userId/follows"
-          element={
-            <Layout>
-              <MyFollowList />
-            </Layout>
-          }
-        />
-        <Route
-          path="/my/:userId/posts"
-          element={
-            <Layout>
-              <MyPostList />
-            </Layout>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <Layout>
-              <SignUp />
-            </Layout>
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            <Layout>
-              <SignIn />
-            </Layout>
-          }
-        />
-        <Route
-          path="/my/:userId/noti"
-          element={
-            <Layout>
-              <MyNotiList />
-            </Layout>
-          }
-        />
+        <Route element={<LayoutWithOutlet />}>
+          <Route path="/map" element={<Map />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/write/:userId" element={<WritePost />} />
+          <Route path="/posts/:id" element={<PostDetail />} />
+          <Route path="/edit/:id" element={<EditPost />} />
+          <Route path="/add-popup" element={<AddPopUp />} />
+          <Route path="/user_explore" element={<UserExplore />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/my/:userId/edit" element={<MyPageEdit />} />
+          <Route path="/my/:userId" element={<UserProfile />} />
+          <Route path="/my/:userId/follows" element={<MyFollowList />} />
+          <Route path="/my/:userId/posts" element={<MyPostList />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/my/:userId/noti" element={<MyNotiList />} />
+        </Route>
         <Route path="/search" element={<Search />} />
         <Route
           path="/"

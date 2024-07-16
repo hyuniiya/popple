@@ -1,9 +1,12 @@
 import { FaRegBell } from 'react-icons/fa';
+import { PiMapPinPlusLight } from 'react-icons/pi';
 import SearchIcon from '@/assets/images/search_icon.png';
 import { useNavigate } from 'react-router-dom';
+import { useAdmin } from '@/hooks/useAdmin';
 
 const Header = () => {
   const navigate = useNavigate();
+  const { isAdmin, loading } = useAdmin();
 
   const handleGoSearch = () => {
     navigate('/search');
@@ -13,15 +16,28 @@ const Header = () => {
     navigate('/notification');
   };
 
+  const handleGoAddPopup = () => navigate('/add-popup');
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <header className="fixed top-0 left-0 right-0 z-10">
       <div className="w-full max-w-[450px] mx-auto px-4 pb-4 bg-primary rounded-b-lg">
-        <div className="flex items-center justify-between">
+        <div className="pt-3 pb-3 flex items-center justify-between">
           <span className="font-museo text-white text-base">popple</span>
-          <FaRegBell
-            className="h-[54px] left-0 text-base text-white cursor-pointer"
-            onClick={handleGoNoti}
-          />
+          <div className="flex items-center">
+            {isAdmin && (
+              <PiMapPinPlusLight
+                className="text-white text-base cursor-pointer mr-4"
+                onClick={handleGoAddPopup}
+              />
+            )}
+            <FaRegBell
+              className="text-base text-white cursor-pointer"
+              onClick={handleGoNoti}
+            />
+          </div>
         </div>
         <div
           className="flex h-[30px] items-center bg-white cursor-pointer"
