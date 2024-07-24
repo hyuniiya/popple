@@ -69,3 +69,14 @@ body {
     flex-direction: column;
   }
 }
+
+@layer components {
+  .custom-swiper .swiper-button-next,
+  .custom-swiper .swiper-button-prev {
+    @apply text-white scale-75;
+  }
+
+  .custom-swiper .swiper-pagination-bullet-active {
+    @apply bg-white;
+  }
+}

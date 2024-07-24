@@ -202,3 +202,18 @@ export const isLikedByUser = async (postId: string, userId: string) => {
   const querySnapshot = await getDocs(q);
   return !querySnapshot.empty;
 };
+
+export const fetchPostsByEventId = async (
+  eventId: string,
+): Promise<Posts[]> => {
+  const postsRef = collection(db, 'posts');
+  const q = query(
+    postsRef,
+    where('eventId', '==', eventId),
+    orderBy('createdAt', 'desc'),
+  );
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(
+    doc => ({ id: doc.id, ...doc.data() }) as Posts,
+  );
+};

@@ -1,6 +1,30 @@
+import { ReactNode } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
+export interface EventData {
+  longitude: any;
+  latitude: any;
+  id: string;
+  type: 'popup' | 'exhibition';
+  name: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  category: string;
+  operatingHours: string;
+  image: File | null;
+  imageUrl?: string;
+}
+
 export interface Posts {
+  eventId?: string;
+  Image?: any;
+  region?: ReactNode;
+  authorNickname?: ReactNode;
+  likes?: ReactNode;
+  isOngoing?: any;
+  exhibitionImage?: string;
   id: string;
   title: string;
   content: string;

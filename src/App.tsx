@@ -17,6 +17,7 @@ import WritePost from './pages/community/WritePost';
 import PostDetail from './pages/community/PostDetail';
 import EditPost from './pages/community/EditPost';
 import AddPopUp from './pages/admin/AddPopUp';
+import EventDetail from './pages/main/EventDetail';
 import Layout from './components/common/layout/Layout';
 import { Outlet } from 'react-router-dom';
 
@@ -37,6 +38,7 @@ const App: React.FC = () => {
           <Route path="/posts/:id" element={<PostDetail />} />
           <Route path="/edit/:id" element={<EditPost />} />
           <Route path="/add-popup" element={<AddPopUp />} />
+          <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/user_explore" element={<UserExplore />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/my/:userId/edit" element={<MyPageEdit />} />

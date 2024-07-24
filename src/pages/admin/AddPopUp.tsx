@@ -70,7 +70,13 @@ const AddPopup: React.FC = () => {
       return;
     }
     try {
-      await addEvent({ ...formData, image });
+      await addEvent({
+        ...formData,
+        image,
+        id: '',
+        longitude: undefined,
+        latitude: undefined,
+      });
       navigate('/');
     } catch (error) {
       console.error('Error adding popup:', error);
