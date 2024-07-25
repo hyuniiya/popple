@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { fetchPostById } from '@/api/post';
 import { getAllUsers } from '@/api/user';
@@ -13,12 +13,17 @@ import { useComments } from '@/hooks/useComments';
 import PostContent from '@/components/post/PostContent';
 import Comment from '@/components/post/comment/Comment';
 import CommentForm from '@/components/forms/CommentForm';
+import { formatDate } from '@/lib/utils';
+import LoginModal from '@/components/common/modal/LoginModal';
 
 const PostDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const deletePostMutation = useDeletePost();
   const likePostMutation = useLikePost(id ?? '');
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const { data: post, isLoading: postLoading } = useQuery<Posts, Error>(
     ['post', id],
@@ -94,25 +99,11 @@ const PostDetail: React.FC = () => {
     if (user) {
       likePostMutation.mutate(user.uid);
     } else {
-      alert('로그인이 필요합니다.');
+      setIsLoginModalOpen(true);
     }
   };
 
   if (!author) return <div>Author not found</div>;
-
-  const formatDate = (date: any) => {
-    if (!date) return 'Invalid Date';
-    const parsedDate = date.toDate ? date.toDate() : new Date(date);
-    if (isNaN(parsedDate.getTime())) return 'Invalid Date';
-    return parsedDate
-      .toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-      .replace(/\.$/, '')
-      .replace(/ /g, '');
-  };
 
   const isAuthor = user && user.uid === post.userId;
 
@@ -120,6 +111,21 @@ const PostDetail: React.FC = () => {
     if (window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
       deletePostMutation.mutate(id as string);
     }
+  };
+
+  const handleCommentFormClick = () => {
+    if (!user) {
+      setIsLoginModalOpen(true);
+    }
+  };
+
+  const handleLoginConfirm = () => {
+    setIsLoginModalOpen(false);
+    navigate('/signin');
+  };
+
+  const handleLoginRequired = () => {
+    setIsLoginModalOpen(true);
   };
 
   return (
@@ -153,12 +159,21 @@ const PostDetail: React.FC = () => {
       </button>
       {showComments && (
         <div>
-          <CommentForm
-            user={user}
-            commentText={commentText}
-            setCommentText={setCommentText}
-            handleCommentSubmit={handleCommentSubmit}
-          />
+          {user ? (
+            <CommentForm
+              user={user}
+              commentText={commentText}
+              setCommentText={setCommentText}
+              handleCommentSubmit={handleCommentSubmit}
+            />
+          ) : (
+            <div
+              onClick={handleCommentFormClick}
+              className="cursor-pointer p-4 border rounded-lg text-center text-gray-500 hover:bg-gray-100"
+            >
+              댓글을 작성하려면 로그인이 필요합니다.
+            </div>
+          )}
 
           {commentsData?.pages.map((page, pageIndex) => (
             <React.Fragment key={pageIndex}>
@@ -176,6 +191,7 @@ const PostDetail: React.FC = () => {
                     handleCommentUpdate={handleCommentUpdate}
                     handleCommentDelete={handleCommentDelete}
                     isPostAuthor={user?.uid === post.userId}
+                    onLoginRequired={handleLoginRequired}
                   />
                 );
               })}
@@ -188,6 +204,11 @@ const PostDetail: React.FC = () => {
           )}
         </div>
       )}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onConfirm={handleLoginConfirm}
+      />
     </div>
   );
 };

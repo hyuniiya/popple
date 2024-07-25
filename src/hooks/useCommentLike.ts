@@ -5,7 +5,11 @@ import {
   isCommentLikedByUser,
 } from '@/api/comment';
 
-export const useCommentLike = (commentId: string, userId: string | null) => {
+export const useCommentLike = (
+  commentId: string,
+  userId: string | null,
+  onLoginRequired: () => void = () => {},
+) => {
   const queryClient = useQueryClient();
 
   const likeMutation = useMutation(
@@ -35,7 +39,7 @@ export const useCommentLike = (commentId: string, userId: string | null) => {
     if (userId) {
       likeMutation.mutate();
     } else {
-      alert('로그인이 필요합니다.');
+      onLoginRequired();
     }
   };
 

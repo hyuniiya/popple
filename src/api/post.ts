@@ -217,3 +217,33 @@ export const fetchPostsByEventId = async (
     doc => ({ id: doc.id, ...doc.data() }) as Posts,
   );
 };
+
+export const fetchUserPosts = async (
+  userId: string,
+  lastPost?: QueryDocumentSnapshot,
+) => {
+  let postsQuery = query(
+    collection(db, 'posts'),
+    where('userId', '==', userId),
+    orderBy('createdAt', 'desc'),
+    limit(3),
+  );
+
+  if (lastPost) {
+    postsQuery = query(postsQuery, startAfter(lastPost));
+  }
+
+  const snapshot = await getDocs(postsQuery);
+  const posts = snapshot.docs.map(
+    doc => ({ id: doc.id, ...doc.data() }) as unknown as Posts,
+  );
+
+  const uniquePosts = Array.from(new Set(posts.map(post => post.id))).map(id =>
+    posts.find(post => post.id === id),
+  );
+
+  return {
+    posts: uniquePosts,
+    lastVisible: snapshot.docs[snapshot.docs.length - 1],
+  };
+};

@@ -29,7 +29,9 @@ const EventDetail: React.FC = () => {
           {activeTab === 'details' && (
             <EventDetails event={event} coordinates={coordinates} />
           )}
-          {activeTab === 'reviews' && <EventReviews event={event} />}
+          {activeTab === 'reviews' && (
+            <EventReviews event={event} eventId={event.id} />
+          )}
         </div>
       </div>
     </div>

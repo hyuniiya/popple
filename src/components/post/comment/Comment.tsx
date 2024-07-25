@@ -11,6 +11,7 @@ const Comment: React.FC<{
   handleCommentUpdate: (id: string, text: string) => void;
   handleCommentDelete: (id: string) => void;
   isPostAuthor: boolean;
+  onLoginRequired?: () => void;
 }> = ({
   comment,
   user,
@@ -19,6 +20,7 @@ const Comment: React.FC<{
   handleCommentUpdate,
   handleCommentDelete,
   isPostAuthor,
+  onLoginRequired,
 }) => {
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editCommentText, setEditCommentText] = useState('');
@@ -27,13 +29,16 @@ const Comment: React.FC<{
   const { likesCount, isLiked, toggleLike } = useCommentLike(
     comment.id,
     user?.uid ?? null,
+    onLoginRequired,
   );
 
   return (
     <div key={comment.id} className="flex items-start space-x-4 mb-4">
       <div className="flex flex-col items-center">
         <img
-          src={commentAuthor?.profileImgUrl}
+          src={
+            commentAuthor?.profileImgUrl || '/src/assets/images/user_img.png'
+          }
           alt={`${commentAuthor?.nickname}'s profile`}
           className="w-10 h-10 rounded-full mb-1"
         />

@@ -43,6 +43,7 @@ export interface FollowData {
 }
 
 export interface UserData {
+  role?: string;
   uid: string;
   email?: string;
   profileImgUrl?: string;

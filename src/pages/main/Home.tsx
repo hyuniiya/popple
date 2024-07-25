@@ -34,14 +34,14 @@ const Home: React.FC = () => {
 
       <div className="mb-8">
         <h2 className="text-2xl font-godob text-primary mb-4">이 달의 팝업</h2>
-        <EventSwiper events={popups} />
+        <EventSwiper events={popups} loading={false} />
       </div>
 
       <div className="mb-8">
         <h2 className="text-2xl font-godob text-primary mb-4">
           이 달의 전시회
         </h2>
-        <EventSwiper events={exhibitions} />
+        <EventSwiper events={exhibitions} loading={false} />
       </div>
     </div>
   );

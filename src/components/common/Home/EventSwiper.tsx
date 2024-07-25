@@ -8,9 +8,10 @@ import EventCard from './EventCard';
 
 interface EventSwiperProps {
   events: EventData[];
+  loading: boolean;
 }
 
-const EventSwiper: React.FC<EventSwiperProps> = ({ events }) => (
+const EventSwiper: React.FC<EventSwiperProps> = ({ events, loading }) => (
   <Swiper
     modules={[Navigation]}
     navigation
@@ -18,11 +19,17 @@ const EventSwiper: React.FC<EventSwiperProps> = ({ events }) => (
     slidesPerView={2}
     className="custom-swiper"
   >
-    {events.map(event => (
-      <SwiperSlide key={event.id}>
-        <EventCard event={event} />
-      </SwiperSlide>
-    ))}
+    {loading
+      ? Array.from({ length: 4 }).map((_, index) => (
+          <SwiperSlide key={index}>
+            <EventCard event={{} as EventData} loading={true} />
+          </SwiperSlide>
+        ))
+      : events.map(event => (
+          <SwiperSlide key={event.id}>
+            <EventCard event={event} />
+          </SwiperSlide>
+        ))}
   </Swiper>
 );
 

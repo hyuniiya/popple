@@ -23,8 +23,9 @@ function UserExplore() {
   }
 
   // 현재 사용자 제외
-  const filteredUsers = data?.filter(user => user.uid !== currentUserId) || [];
-
+  const filteredUsers =
+    data?.filter(user => user.uid !== currentUserId && user.role !== 'admin') ||
+    [];
   const handleUserClick = (uid: string) => {
     navigate(`/my/${uid}`);
   };

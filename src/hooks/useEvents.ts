@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { fetchEvents } from '@/api/info';
 import { EventData } from '@/types';
 
+interface EventWithStatus extends EventData {
+  status: 'ongoing' | 'ended';
+}
+
 interface EventsState {
-  events: EventData[];
+  events: EventWithStatus[];
   loading: boolean;
   error: Error | null;
 }
@@ -19,8 +23,16 @@ const useEvents = () => {
     const loadEvents = async () => {
       try {
         const eventsList = await fetchEvents();
+        const currentDate = new Date();
+        const eventsWithStatus = eventsList.map(event => ({
+          ...event,
+          status:
+            new Date(event.endDate) < currentDate
+              ? ('ended' as const)
+              : ('ongoing' as const),
+        }));
         setState({
-          events: eventsList,
+          events: eventsWithStatus,
           loading: false,
           error: null,
         });
@@ -39,18 +51,41 @@ const useEvents = () => {
 
   const currentMonth = new Date().getMonth() + 1;
 
-  const popups = state.events.filter(event => event.type === 'popup');
-  const exhibitions = state.events.filter(event => event.type === 'exhibition');
+  const popups = useMemo(
+    () => state.events.filter(event => event.type === 'popup'),
+    [state.events],
+  );
+  const exhibitions = useMemo(
+    () => state.events.filter(event => event.type === 'exhibition'),
+    [state.events],
+  );
 
-  const thisMonthPopups = popups.filter(popup => {
-    const startDate = new Date(popup.startDate);
-    return startDate.getMonth() + 1 === currentMonth;
-  });
+  const thisMonthPopups = useMemo(
+    () =>
+      popups.filter(popup => {
+        const startDate = new Date(popup.startDate);
+        return startDate.getMonth() + 1 === currentMonth;
+      }),
+    [popups, currentMonth],
+  );
 
-  const thisMonthExhibitions = exhibitions.filter(exhibition => {
-    const startDate = new Date(exhibition.startDate);
-    return startDate.getMonth() + 1 === currentMonth;
-  });
+  const thisMonthExhibitions = useMemo(
+    () =>
+      exhibitions.filter(exhibition => {
+        const startDate = new Date(exhibition.startDate);
+        return startDate.getMonth() + 1 === currentMonth;
+      }),
+    [exhibitions, currentMonth],
+  );
+
+  const ongoingEvents = useMemo(
+    () => state.events.filter(event => event.status === 'ongoing'),
+    [state.events],
+  );
+  const endedEvents = useMemo(
+    () => state.events.filter(event => event.status === 'ended'),
+    [state.events],
+  );
 
   return {
     ...state,
@@ -58,6 +93,8 @@ const useEvents = () => {
     exhibitions,
     thisMonthPopups,
     thisMonthExhibitions,
+    ongoingEvents,
+    endedEvents,
   };
 };
 

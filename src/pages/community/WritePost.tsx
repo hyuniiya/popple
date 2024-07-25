@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useAddPost } from '@/hooks/useAddPost';
 import { useNavigate } from 'react-router-dom';
 import { Posts } from '@/types';
+import useEvents from '@/hooks/useEvents';
 
 const WritePost = () => {
   const [title, setTitle] = useState('');
@@ -16,6 +17,8 @@ const WritePost = () => {
   const addPostMutation = useAddPost();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const { events } = useEvents();
 
   const handleAddTag = () => {
     if (tag.trim() && !tags.includes(tag.trim())) {
@@ -66,6 +69,7 @@ const WritePost = () => {
         tags,
         userId: user.uid,
         images: images.length > 0 ? images : undefined,
+        eventId: selectedEventId || undefined,
       };
 
       await addPostMutation.mutateAsync(postData);
@@ -81,6 +85,17 @@ const WritePost = () => {
       <h1 className="text-primary text-[22px] font-godob mb-6">게시판</h1>
 
       <form onSubmit={handleSubmit}>
+        <select
+          value={selectedEventId || ''}
+          onChange={e => setSelectedEventId(e.target.value || null)}
+        >
+          <option value="">팝업&전시회 정보 선택</option>
+          {events.map(event => (
+            <option key={event.id} value={event.id}>
+              {event.name}
+            </option>
+          ))}
+        </select>
         <input
           type="text"
           value={title}
