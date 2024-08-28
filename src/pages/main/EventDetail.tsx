@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useEvents from '@/hooks/useEvents';
 import { useNaverMap } from '@/hooks/useNaverMap';
+import { useAuth } from '@/context/AuthContext';
 import EventImage from '@/components/common/Home/UI/EventImage';
 import TabMenu from '@/components/common/Home/UI/TabMenu';
 import EventDetails from '@/components/common/Home/EventDetails';
@@ -13,6 +14,7 @@ const EventDetail: React.FC = () => {
   const event = events.find(e => e.id === id) || null;
   const coordinates = useNaverMap(event?.location || '');
   const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details');
+  const { user } = useAuth();
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -21,7 +23,13 @@ const EventDetail: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
-        <EventImage imageUrl={event.imageUrl} name={event.name} />
+        <EventImage
+          imageUrl={event.imageUrl}
+          name={event.name}
+          userId={user?.uid}
+          eventId={event.id}
+          showBookmark={!!user}
+        />
         <div className="mt-4">
           <TabMenu activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>

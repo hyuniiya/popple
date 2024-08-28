@@ -27,7 +27,7 @@ export const fetchPosts = async (lastPost?: QueryDocumentSnapshot) => {
   let postsQuery = query(
     collection(db, 'posts'),
     orderBy('createdAt', 'desc'),
-    limit(4),
+    limit(3),
   );
 
   if (lastPost) {

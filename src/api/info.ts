@@ -20,13 +20,15 @@ export const addEvent = async (eventData: EventData) => {
     let newId = querySnapshot.size;
 
     let imageUrl = '';
-    if (eventData.image && eventData.image instanceof File) {
+    if (eventData.image) {
       const imageName = `${Date.now()}_${eventData.image.name}`;
       const imageRef = ref(storage, `events/${imageName}`);
-      await uploadBytes(imageRef, eventData.image);
+      const uploadResult = await uploadBytes(imageRef, eventData.image);
+      console.log('Upload result:', uploadResult);
       imageUrl = await getDownloadURL(imageRef);
-    } else if (typeof eventData.image === 'string') {
-      imageUrl = eventData.image;
+      console.log('Image URL:', imageUrl);
+    } else {
+      console.log('No image to upload');
     }
 
     const { image, ...dataToSave } = eventData;

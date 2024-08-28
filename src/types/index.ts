@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 export interface EventData {
-  longitude: any;
-  latitude: any;
+  longitude?: any;
+  latitude?: any;
   id: string;
   type: 'popup' | 'exhibition';
   name: string;

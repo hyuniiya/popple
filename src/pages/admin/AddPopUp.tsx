@@ -74,8 +74,8 @@ const AddPopup: React.FC = () => {
         ...formData,
         image,
         id: '',
-        longitude: undefined,
-        latitude: undefined,
+        longitude: null,
+        latitude: null,
       });
       navigate('/');
     } catch (error) {
