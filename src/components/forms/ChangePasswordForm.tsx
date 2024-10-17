@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import { useChangePassword } from '@/hooks/useChangePassword';
-import { TextInput } from '../common/text/TextInput';
+import { TextInput } from '../input/TextInput';
 import { UserData } from '@/types';
 
 interface ChangePasswordFormData {

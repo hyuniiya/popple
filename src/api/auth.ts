@@ -32,6 +32,7 @@ export const signUp = async (formData: SignUpData): Promise<User> => {
       bio,
       profileImg: Basic_Profile_img,
       createdAt: new Date(),
+      role: 'user',
     });
 
     return user;

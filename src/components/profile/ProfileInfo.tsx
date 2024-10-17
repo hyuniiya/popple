@@ -33,12 +33,6 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
     navigate(`/my/${userId}/posts`);
   };
 
-  const goToUserNotiList = () => {
-    if (isCurrentUser) {
-      navigate(`/my/${userId}/noti`);
-    }
-  };
-
   const goToMyFollowList = () => {
     if (isCurrentUser) {
       navigate(`/my/${userId}/follows`);
@@ -46,7 +40,18 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
   };
 
   return (
-    <div className="flex">
+    <div className="relative flex items-center justify-center">
+      <div
+        className="absolute top-0 right-24 flex items-center cursor-pointer"
+        onClick={goToUserPostList}
+      >
+        <span className="text-[10px] text-primary font-godob font-thin mr-1">
+          게시글 바로가기
+        </span>
+        <RiArrowRightWideFill className="w-[12px] h-[12px]" />
+      </div>
+
+      {/* 프로필 정보 섹션 */}
       <div className="flex flex-col items-center">
         <div className="relative cursor-pointer" onClick={goToUserPageEdit}>
           <img
@@ -69,7 +74,8 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center mx-10 my-2">
+
+      <div className="flex flex-col items-center mx-10 my-4">
         <div className="flex flex-row items-center">
           <div
             className="flex flex-col items-center cursor-pointer"
@@ -86,28 +92,6 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
             <span className="text-[14px] font-godob">팔로잉</span>
             <span className="text-[16px] font-semibold">{followingCount}</span>
           </div>
-        </div>
-        <div className="flex items-center mt-5">
-          <div
-            className="flex items-center cursor-pointer"
-            onClick={goToUserPostList}
-          >
-            <span className="text-[10px] font-godob font-thin ml-1">
-              게시글 바로가기
-            </span>
-            <RiArrowRightWideFill className="w-[12px] h-[12px] mr-5" />
-          </div>
-          {isCurrentUser && (
-            <div
-              className="flex items-center cursor-pointer"
-              onClick={goToUserNotiList}
-            >
-              <span className="text-[10px] font-godob font-thin ml-2">
-                알림 바로가기
-              </span>
-              <RiArrowRightWideFill className="w-[12px] h-[12px]" />
-            </div>
-          )}
         </div>
       </div>
     </div>

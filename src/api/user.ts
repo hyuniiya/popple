@@ -97,10 +97,10 @@ export const getUserFollowers = async (uid: string): Promise<UserData[]> => {
   const followerData = snapshot.docs.map(doc => doc.data());
 
   const userPromises = followerData.map(async data => {
-    const userDoc = await getDoc(doc(db, 'users', data.to_uid));
+    const userDoc = await getDoc(doc(db, 'users', data.from_uid));
     const userData = userDoc.data();
     return {
-      uid: data.to_uid,
+      uid: data.from_uid,
       nickname: userData?.nickname,
       profileImgUrl: userData?.profileImgUrl,
     };

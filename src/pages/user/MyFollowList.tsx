@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import TabButtons from '@/components/button/TabButtons';
 import UserListItem from '@/components/profile/UserListItem';
-
 import { getUserFollowers, getUserFollowing } from '@/api/user';
 import { useFollow } from '@/hooks/useFollow';
+import { useAuth } from '@/context/AuthContext';
 
 interface UserData {
   uid: string;
@@ -14,7 +14,8 @@ interface UserData {
 
 const MyFollowListPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
-  console.log('Current uid:', userId);
+  const { user } = useAuth();
+  const currentUserId = user?.uid || '';
 
   const [activeTab, setActiveTab] = useState<'followers' | 'following'>(
     'followers',
@@ -22,21 +23,18 @@ const MyFollowListPage: React.FC = () => {
   const [followers, setFollowers] = useState<UserData[]>([]);
   const [following, setFollowing] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const currentUserId = 'current-user-id'; // 실제 인증 시스템에서 가져와야 합니다
   const { followMutation, unfollowMutation } = useFollow(currentUserId);
 
   useEffect(() => {
     const fetchFollowData = async () => {
       if (userId) {
         setIsLoading(true);
-        console.log('Fetching data for userId:', userId);
         try {
           const [followersData, followingData] = await Promise.all([
             getUserFollowers(userId),
             getUserFollowing(userId),
           ]);
-          console.log('Followers data:', followersData);
-          console.log('Following data:', followingData);
+
           setFollowers(followersData);
           setFollowing(followingData);
         } catch (error) {
@@ -66,9 +64,9 @@ const MyFollowListPage: React.FC = () => {
 
     return (
       <div className="space-y-4">
-        {users.map(user => (
+        {users.map((user, index) => (
           <UserListItem
-            key={user.uid}
+            key={`${user.uid}-${index}`}
             user={user}
             currentUserId={currentUserId}
             onFollowToggle={handleFollowToggle}

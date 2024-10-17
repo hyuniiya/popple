@@ -51,11 +51,11 @@ function SignInForm() {
   };
 
   return (
-    <div className="pt-24">
+    <div className="pt-24 w-full max-w-[250px] mx-auto">
       <h2 className="text-[22px] text-primary font-godob">로그인</h2>
       <form
         onSubmit={handleSubmit(signIn)}
-        className="flex flex-col gap-5 h-full my-0 mx-auto p-4"
+        className="flex flex-col items-center justify-center gap-5 h-full my-0 mx-auto p-4"
       >
         <Input
           id="email"
