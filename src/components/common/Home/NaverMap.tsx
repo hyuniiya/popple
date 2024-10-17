@@ -74,6 +74,10 @@ const NaverMap: React.FC<NaverMapProps> = ({
     };
 
     script.addEventListener('load', onLoad);
+    script.addEventListener('error', () => {
+      console.error('네이버 맵 스크립트 로드 실패');
+    });
+
     document.head.appendChild(script);
 
     return () => {

@@ -1,4 +1,3 @@
-import { FaRegBell } from 'react-icons/fa';
 import { PiMapPinPlusLight } from 'react-icons/pi';
 import SearchIcon from '@/assets/images/search_icon.png';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +9,6 @@ const Header = () => {
 
   const handleGoSearch = () => {
     navigate('/search');
-  };
-
-  const handleGoNoti = () => {
-    navigate('/notification');
   };
 
   const handleGoAddPopup = () => navigate('/add-popup');
@@ -33,10 +28,6 @@ const Header = () => {
                 onClick={handleGoAddPopup}
               />
             )}
-            <FaRegBell
-              className="text-base text-white cursor-pointer"
-              onClick={handleGoNoti}
-            />
           </div>
         </div>
         <div

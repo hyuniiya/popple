@@ -63,7 +63,7 @@ const MyPage = () => {
         isCurrentUser={true}
       />
       <div className="mt-8">
-        <h2 className="text-2xl text-primary font-godob mb-4">내 찜 목록</h2>
+        <h2 className="text-2xl text-primary font-godob mb-4">찜 목록</h2>
         <div className="grid grid-cols-1 gap-4 max-w-4xl mx-auto">
           {bookmarkedEvents.map(event => (
             <BookmarkCard

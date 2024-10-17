@@ -8,7 +8,6 @@ export const useFollow = (currentUserId: string) => {
     (targetUserId: string) => followUser(currentUserId, targetUserId),
     {
       onSuccess: () => {
-        console.log('Follow mutation succeeded');
         queryClient.invalidateQueries(['follows', currentUserId]);
         queryClient.invalidateQueries(['followers', currentUserId]);
       },

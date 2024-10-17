@@ -21,12 +21,12 @@ const EventSwiper: React.FC<EventSwiperProps> = ({ events, loading }) => (
   >
     {loading
       ? Array.from({ length: 4 }).map((_, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={`loading-${index}`}>
             <EventCard event={{} as EventData} loading={true} />
           </SwiperSlide>
         ))
-      : events.map(event => (
-          <SwiperSlide key={event.id}>
+      : events.map((event, index) => (
+          <SwiperSlide key={`event-${event.id || event.name}-${index}`}>
             <EventCard event={event} />
           </SwiperSlide>
         ))}

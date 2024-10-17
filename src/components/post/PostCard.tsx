@@ -29,7 +29,8 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     getLikesCount(post.id).then(setLikesCount);
   }, [post.id]);
 
-  const regionDisplay = event ? getRegionDisplay(event.location) : '[지역]';
+  const regionDisplay =
+    event && event.location ? getRegionDisplay(event.location) : '[지역]';
 
   if (loading) {
     return <SkeletonPostCard />;

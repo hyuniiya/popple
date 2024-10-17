@@ -10,7 +10,6 @@ import MyPostList from './pages/user/MyPostList';
 import SignIn from './pages/auth/SignIn';
 import HomeLayout from './components/common/layout/HomeLayout';
 import Search from './pages/search/Search';
-import MyNotiList from './pages/user/MyNotiList';
 import UserProfile from './pages/user/UserProfile';
 import MyFollowList from './pages/user/MyFollowList';
 import WritePost from './pages/community/WritePost';
@@ -47,7 +46,6 @@ const App: React.FC = () => {
           <Route path="/my/:userId/posts" element={<MyPostList />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/my/:userId/noti" element={<MyNotiList />} />
         </Route>
         <Route path="/search" element={<Search />} />
         <Route
