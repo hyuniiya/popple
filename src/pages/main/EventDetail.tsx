@@ -12,7 +12,9 @@ const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { events, loading, error } = useEvents();
   const event = events.find(e => e.id === id) || null;
-  const coordinates = useNaverMap(event?.location || '');
+  const coordinates = event?.location
+    ? useNaverMap(event.location.latitude)
+    : null;
   const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details');
   const { user } = useAuth();
 
