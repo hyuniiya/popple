@@ -11,12 +11,24 @@ interface PostCardProps {
   post: Posts;
 }
 
-const getRegionDisplay = (location: string) => {
-  const parts = location.split(' ');
-  if (parts[0] === '서울특별시' || parts[0] === '서울시') {
-    return `[${parts[1].replace('구', '')}]`;
+const getRegionDisplay = (
+  location: string | { latitude: string; longitude: string },
+) => {
+  if (typeof location === 'string') {
+    const parts = location.split(' ');
+    if (parts[0] === '서울특별시' || parts[0] === '서울시') {
+      return `[${parts[1].replace('구', '')}]`;
+    } else {
+      return `[${parts[0].slice(0, 2)}]`;
+    }
+  } else if (
+    typeof location === 'object' &&
+    location.latitude &&
+    location.longitude
+  ) {
+    return `[위도: ${location.latitude}, 경도: ${location.longitude}]`;
   } else {
-    return `[${parts[0].slice(0, 2)}]`;
+    return '[지역 정보 없음]';
   }
 };
 
