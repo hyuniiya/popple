@@ -5,12 +5,21 @@ import * as path from 'path';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  console.log('Loaded env:', env);
   return {
     plugins: [react(), svgr()],
     resolve: {
       alias: {
-        '@/': path.resolve(__dirname, 'src') + '/',
+        '@': path.resolve(__dirname, './src') + '/',
+      },
+    },
+    build: {
+      outDir: 'dist',
+      sourcemap: true,
+      minify: false,
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
       },
     },
     define: {
