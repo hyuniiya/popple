@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignUp from '@/pages/auth/SignUp';
+import SignUp from '@/pages/Auth/SignUp';
 import Home from '@/pages/main/Home';
 import Map from '@/pages/map/Map';
 import Community from '@/pages/community/Community';
@@ -7,7 +7,7 @@ import UserExplore from '@/pages/user/UserExplore';
 import MyPage from '@/pages/user/MyPage';
 import MyPageEdit from '@/pages/user/MyPageEdit';
 import MyPostList from '@/pages/user/MyPostList';
-import SignIn from '@/pages/auth/SignIn';
+import SignIn from '@/pages/Auth/SignIn';
 import HomeLayout from '@/components/common/layout/HomeLayout';
 import Search from '@/pages/search/Search';
 import UserProfile from '@/pages/user/UserProfile';
