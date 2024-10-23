@@ -8,7 +8,9 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), svgr()],
     resolve: {
-      alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
     },
     build: {
       outDir: 'dist',
