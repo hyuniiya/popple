@@ -16,11 +16,12 @@ const NaverMap: React.FC<NaverMapProps> = ({
   useEffect(() => {
     if (!coordinates || !mapElement.current) return;
 
-    const script = document.createElement('script');
-    script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${import.meta.env.VITE_NAVER_MAPS_CLIENT_ID}`;
-    script.async = true;
+    const clientId = import.meta.env.VITE_NAVER_MAPS_CLIENT_ID;
+    const existingScript = document.querySelector(
+      `script[src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}"]`,
+    );
 
-    const onLoad = () => {
+    const initializeMap = () => {
       if (!window.naver || !window.naver.maps) return;
 
       const location = new window.naver.maps.LatLng(
@@ -69,26 +70,39 @@ const NaverMap: React.FC<NaverMapProps> = ({
 
       infoWindow.open(map, marker);
 
-      // 지도 중심을 항상 마커 위치로 설정
       map.setCenter(location);
     };
 
-    script.addEventListener('load', onLoad);
-    script.addEventListener('error', () => {
-      console.error('네이버 맵 스크립트 로드 실패');
-    });
-
-    document.head.appendChild(script);
-
-    return () => {
-      script.removeEventListener('load', onLoad);
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
+    if (existingScript) {
+      if (window.naver && window.naver.maps) {
+        initializeMap();
       }
-      if (mapElement.current) {
-        mapElement.current.innerHTML = '';
-      }
-    };
+    } else {
+      const script = document.createElement('script');
+      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}`;
+      script.async = true;
+
+      const onLoad = () => {
+        initializeMap();
+      };
+
+      script.addEventListener('load', onLoad);
+      script.addEventListener('error', () => {
+        console.error('네이버 맵 스크립트 로드 실패');
+      });
+
+      document.head.appendChild(script);
+
+      return () => {
+        script.removeEventListener('load', onLoad);
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+        if (mapElement.current) {
+          mapElement.current.innerHTML = '';
+        }
+      };
+    }
   }, [coordinates, eventName, eventType]);
 
   return <div ref={mapElement} style={{ width: '100%', height: '400px' }} />;

@@ -7,7 +7,7 @@ export interface EventData {
   id: string;
   type: 'popup' | 'exhibition';
   name: string;
-  location: { latitude: string; longitude: string };
+  location: string;
   startDate: string;
   endDate: string;
   description: string;
