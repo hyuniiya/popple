@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import google from '@/assets/images/google_logo_icon.png';
 import github from '@/assets/images/github_logo_icon.png';
 import { useUserStore } from '@/store/store';
+import { signInWithGoogle, signInWithGithub } from '@/api/auth';
 
 function SignInForm() {
   const navigate = useNavigate();
@@ -47,6 +48,38 @@ function SignInForm() {
       const errorCode = (error as any).code;
       const errorMessage = (error as any).message;
       console.log('error with signIn', errorCode, errorMessage);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const user = await signInWithGoogle();
+      console.log('Successfully signed in with Google:', user);
+      setUser(user);
+      alert('구글 계정으로 로그인되었습니다!');
+      navigate('/');
+    } catch (error: any) {
+      console.error('Google sign-in error:', error);
+      alert('구글 로그인 중 오류가 발생했습니다.');
+    }
+  };
+
+  const handleGithubSignIn = async () => {
+    try {
+      const user = await signInWithGithub();
+      console.log('Successfully signed in with GitHub:', user);
+      setUser(user);
+      alert('GitHub 계정으로 로그인되었습니다!');
+      navigate('/');
+    } catch (error: any) {
+      console.error('GitHub sign-in error:', error);
+      if (error.code === 'auth/account-exists-with-different-credential') {
+        alert(
+          '이미 다른 방법으로 가입된 이메일입니다. 다른 로그인 방법을 시도해주세요.',
+        );
+      } else {
+        alert('GitHub 로그인 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -118,11 +151,13 @@ function SignInForm() {
           src={google}
           alt="google_logo"
           className="w-10 h-auto cursor-pointer mx-2"
+          onClick={handleGoogleSignIn}
         />
         <img
           src={github}
           alt="github_logo"
           className="w-10 h-auto cursor-pointer mx-2"
+          onClick={handleGithubSignIn}
         />
       </div>
     </div>

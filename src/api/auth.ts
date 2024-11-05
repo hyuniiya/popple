@@ -7,8 +7,11 @@ import {
   reauthenticateWithCredential,
   updatePassword,
   deleteUser,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
-import { doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { SignUpData } from '@/types';
 
 const Basic_Profile_img = '/src/assets/images/user_img.png';
@@ -65,6 +68,66 @@ export const deleteAccount = async (user: User) => {
     await deleteDoc(doc(db, 'users', user.uid));
   } catch (error) {
     console.error('Error deleting user:', error);
+    throw error;
+  }
+};
+
+export const signInWithGoogle = async () => {
+  const googleProvider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+    if (!userDoc.exists()) {
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        email: user.email,
+        name: user.displayName,
+        nickname: user.displayName,
+        bio: '',
+        profileImg: user.photoURL || '/src/assets/images/user_img.png',
+        createdAt: new Date(),
+        role: 'user',
+      });
+    }
+
+    return user;
+  } catch (error: any) {
+    console.error('Error signing in with Google:', error);
+    throw error;
+  }
+};
+
+export const signInWithGithub = async () => {
+  const githubProvider = new GithubAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, githubProvider);
+    const user = result.user;
+
+    const credential = GithubAuthProvider.credentialFromResult(result);
+    const token = credential?.accessToken;
+
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+    if (!userDoc.exists()) {
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        email: user.email || `${user.uid}@github.user`, // GitHub 이메일이 private일 경우 대체
+        name: user.displayName || 'GitHub User',
+        nickname: user.displayName || 'GitHub User',
+        bio: '',
+        profileImg: user.photoURL || '/src/assets/images/user_img.png',
+        createdAt: new Date(),
+        role: 'user',
+        githubToken: token,
+      });
+    }
+
+    return user;
+  } catch (error: any) {
+    console.error('Error signing in with GitHub:', error);
     throw error;
   }
 };
