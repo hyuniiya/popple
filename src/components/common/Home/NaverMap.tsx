@@ -37,7 +37,7 @@ const NaverMap: React.FC<NaverMapProps> = ({
       const map = new window.naver.maps.Map(mapElement.current, mapOptions);
 
       const markerIcon = {
-        url: '/public/logo_img.png',
+        url: '/logo_img.png',
         size: new window.naver.maps.Size(100, 100),
         origin: new window.naver.maps.Point(0, 0),
         anchor: new window.naver.maps.Point(25, 50),

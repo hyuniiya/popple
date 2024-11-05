@@ -6,7 +6,7 @@ const UserListItem: React.FC<{
   <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow">
     <div className="flex items-center">
       <img
-        src={user.profileImgUrl || '/public/user_img.png'}
+        src={user.profileImgUrl || '/user_img.png'}
         alt={user.nickname}
         className="w-12 h-12 rounded-full mr-4"
       />

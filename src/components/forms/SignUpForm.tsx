@@ -38,7 +38,7 @@ const SignUpForm: React.FC = () => {
       >
         <div className="flex items-center justify-center">
           <img
-            src="/src/assets/images/user_img.png"
+            src="/user_img.png"
             alt="user_img_basic"
             className="w-[72px] h-[72px]"
           />

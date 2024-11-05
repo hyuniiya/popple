@@ -48,7 +48,7 @@ const PostContent: React.FC<{
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
           <img
-            src={author.profileImgUrl || '/public/user_img.png'}
+            src={author.profileImgUrl || '/user_img.png'}
             alt={`${author.nickname}'s profile`}
             className="w-10 h-10 rounded-full mr-3 shadow-drop"
           />

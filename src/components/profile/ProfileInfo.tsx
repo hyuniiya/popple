@@ -55,7 +55,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
       <div className="flex flex-col items-center">
         <div className="relative cursor-pointer" onClick={goToUserPageEdit}>
           <img
-            src={profileImgUrl || '/public/user_img.png'}
+            src={profileImgUrl || '/user_img.png'}
             alt="user_img_basic"
             className="w-[68px] h-[68px] rounded-full shadow-drop border border-white"
           />
