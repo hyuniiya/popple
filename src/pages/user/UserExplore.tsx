@@ -44,7 +44,7 @@ function UserExplore() {
                 onClick={() => handleUserClick(user.uid)}
               >
                 <img
-                  src={user.profileImgUrl || '/src/assets/images/user_img.png'}
+                  src={user.profileImgUrl || '/public/user_img.png'}
                   alt="Profile_Img"
                   className="w-[58px] h-[58px] rounded-full shadow-md mr-3"
                 />

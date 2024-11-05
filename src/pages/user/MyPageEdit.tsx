@@ -128,7 +128,7 @@ const MyPageEdit = () => {
               src={
                 profileImg
                   ? URL.createObjectURL(profileImg)
-                  : userInfo.profileImgUrl || '/src/assets/images/user_img.png'
+                  : userInfo.profileImgUrl || '/public/user_img.png'
               }
               alt="user_img"
               className="w-[68px] h-[68px] rounded-full shadow-drop border border-white"

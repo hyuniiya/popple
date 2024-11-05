@@ -138,7 +138,7 @@ const EventMarkers: React.FC<EventMarkersProps> = ({ map }) => {
     const eventLocation = new window.naver.maps.LatLng(latitude, longitude);
 
     const markerIcon = {
-      url: '/src/assets/images/logo_img.png',
+      url: '/public/logo_img.png',
       size: new window.naver.maps.Size(100, 100),
       origin: new window.naver.maps.Point(0, 0),
       anchor: new window.naver.maps.Point(25, 50),

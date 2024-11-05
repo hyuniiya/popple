@@ -1,7 +1,6 @@
 import { FaRegEdit } from 'react-icons/fa';
 import { RiArrowRightWideFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import defaultUserImg from '@/assets/images/user_img.png';
 
 interface ProfileInfoProps {
   userId: string;
@@ -56,7 +55,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
       <div className="flex flex-col items-center">
         <div className="relative cursor-pointer" onClick={goToUserPageEdit}>
           <img
-            src={profileImgUrl || defaultUserImg}
+            src={profileImgUrl || '/public/user_img.png'}
             alt="user_img_basic"
             className="w-[68px] h-[68px] rounded-full shadow-drop border border-white"
           />
