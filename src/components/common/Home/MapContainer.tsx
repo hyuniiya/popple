@@ -21,7 +21,21 @@ const SkeletonLoader = () => (
 const MapContainer: React.FC<MapContainerProps> = ({ children }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentLocation, setCurrentLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [marker, setMarker] = useState<any>(null);
+
+  const updateZoomLevel = () => {
+    if (!map || !mapRef.current) return;
+
+    const width = mapRef.current.offsetWidth;
+    const zoomLevel = width < 600 ? 12 : width < 1024 ? 13 : 14; // 예시: 화면 크기별로 줌 레벨 조정
+
+    map.setZoom(zoomLevel);
+  };
 
   useEffect(() => {
     const loadMapScript = () => {
@@ -38,6 +52,8 @@ const MapContainer: React.FC<MapContainerProps> = ({ children }) => {
       navigator.geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
+          setCurrentLocation({ latitude, longitude });
+
           const currentLocation = new window.naver.maps.LatLng(
             latitude,
             longitude,
@@ -48,7 +64,7 @@ const MapContainer: React.FC<MapContainerProps> = ({ children }) => {
             zoom: 13,
           });
 
-          new window.naver.maps.Marker({
+          const newMarker = new window.naver.maps.Marker({
             position: currentLocation,
             map: newMap,
             icon: {
@@ -59,10 +75,13 @@ const MapContainer: React.FC<MapContainerProps> = ({ children }) => {
           });
 
           setMap(newMap);
+          setMarker(newMarker);
           setIsLoading(false);
+          updateZoomLevel();
         },
         error => {
           console.error('Error getting current location:', error);
+
           const defaultLocation = new window.naver.maps.LatLng(
             37.5665,
             126.978,
@@ -71,13 +90,17 @@ const MapContainer: React.FC<MapContainerProps> = ({ children }) => {
             center: defaultLocation,
             zoom: 13,
           });
+
           setMap(newMap);
           setIsLoading(false);
+          updateZoomLevel();
         },
       );
     };
 
     loadMapScript();
+
+    window.addEventListener('resize', updateZoomLevel);
 
     return () => {
       const script = document.querySelector(
@@ -86,12 +109,62 @@ const MapContainer: React.FC<MapContainerProps> = ({ children }) => {
       if (script) {
         document.head.removeChild(script);
       }
+      window.removeEventListener('resize', updateZoomLevel);
     };
   }, []);
 
+  useEffect(() => {
+    if (!map || !currentLocation) return;
+
+    if (currentLocation) {
+      const { latitude, longitude } = currentLocation;
+      const fixedLocation = new window.naver.maps.LatLng(latitude, longitude);
+      map.setCenter(fixedLocation);
+    }
+  }, [map, currentLocation]);
+
+  const moveToCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        const newLocation = new window.naver.maps.LatLng(latitude, longitude);
+        setCurrentLocation({ latitude, longitude });
+
+        map.setCenter(newLocation);
+
+        if (marker) {
+          marker.setPosition(newLocation);
+        } else {
+          const newMarker = new window.naver.maps.Marker({
+            position: newLocation,
+            map: map,
+            icon: {
+              content:
+                '<div style="background-color:#1E90FF;width:15px;height:15px;border-radius:50%;border:2px solid white;"></div>',
+              anchor: new window.naver.maps.Point(7.5, 7.5),
+            },
+          });
+          setMarker(newMarker);
+        }
+      },
+      error => {
+        console.error('Error getting current location:', error);
+        alert('현재 위치를 가져올 수 없습니다. 위치 권한을 확인하세요.');
+      },
+    );
+  };
+
   return (
-    <div ref={mapRef} className="w-full h-full">
-      {isLoading ? <SkeletonLoader /> : map && children(map)}
+    <div className="relative w-full h-full">
+      <div ref={mapRef} className="w-full h-full">
+        {isLoading ? <SkeletonLoader /> : map && children(map)}
+      </div>
+      <button
+        onClick={moveToCurrentLocation}
+        className="fixed top-1/4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-primary text-white font-godob rounded-md shadow-md z-10"
+      >
+        현 위치에서 검색
+      </button>
     </div>
   );
 };

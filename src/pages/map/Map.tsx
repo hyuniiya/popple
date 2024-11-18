@@ -4,8 +4,10 @@ import EventMarkers from '@/components/common/Home/EventMarkers';
 
 const Map: React.FC = () => {
   return (
-    <div className="flex justify-center items-center w-screen h-screen mb-4">
-      <MapContainer>{(map: any) => <EventMarkers map={map} />}</MapContainer>
+    <div className="relative w-full h-[calc(100vh-4rem)] max-w-7xl mx-auto px-4 py-4">
+      <div className="w-full h-full">
+        <MapContainer>{(map: any) => <EventMarkers map={map} />}</MapContainer>
+      </div>
     </div>
   );
 };
